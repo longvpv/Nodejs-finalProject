@@ -26,7 +26,11 @@ app.set("view engine", "hbs");
 
 // cors setup
 
-var whitelist = ["http://localhost:8081", "http://longvpv.info"];
+var whitelist = [
+  "http://localhost:8081",
+  "http://localhost:3001",
+  "http://longvpv.info",
+];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -47,10 +51,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "public-images")));
 
 app.use("*", checkCurrentUser);
-app.use("/", indexRouter);
+// app.use("/", indexRouter);
 // app.use('/admin', requireAuth, adminRouter);
-app.use("/admin", adminRouter);
-app.use("/users", usersRouter);
+// app.use("/admin", adminRouter);
+// app.use("/users", usersRouter);
 app.use("/api", cors(corsOptions), apiRouter);
 
 // catch 404 and forward to error handler
