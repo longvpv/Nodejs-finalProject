@@ -50,12 +50,13 @@ app.use(upload.single("avatar"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "public-images")));
 
+app.use(cors(corsOptions));
 app.use("*", checkCurrentUser);
 // app.use("/", indexRouter);
 // app.use('/admin', requireAuth, adminRouter);
 // app.use("/admin", adminRouter);
 // app.use("/users", usersRouter);
-app.use("/api", cors(corsOptions), apiRouter);
+app.use("/api", apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
