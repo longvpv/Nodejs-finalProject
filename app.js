@@ -50,7 +50,7 @@ app.use(upload.single("avatar"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "public-images")));
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use("*", checkCurrentUser);
 // app.use("/", indexRouter);
 // app.use('/admin', requireAuth, adminRouter);
