@@ -145,16 +145,14 @@ router.post("/users/uploadPhoto", async (req, res) => {
   const avatarFile = req.file;
   const { originalname, path: filePath } = avatarFile;
   const fs = require("fs");
-  fs.copyFileSync(
-    filePath,
-    `public-images/${userDetails.id + "-" + originalname}`
-  );
+  if (fs.existsSync(`public-images/${userDetails.id}.jpg`)) {
+    fs.unlinkSync(`public-images/${userDetails.id}.jpg`);
+  }
+  fs.copyFileSync(filePath, `public-images/${userDetails.id}.jpg`);
   await User.updateOne(
     { _id: userDetails.id },
     {
-      avatar: `http://${req.headers.host}/images/${
-        userDetails.id + "-" + originalname
-      }`,
+      avatar: `http://${req.headers.host}/images/${userDetails.id}.jpg`,
     }
   );
   res.status(200).json({ status: "Update completed", status: 200 });
