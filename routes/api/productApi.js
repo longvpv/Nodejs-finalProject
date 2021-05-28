@@ -90,6 +90,18 @@ router.post("/createProduct", async (req, res) => {
   res.status(200).json("Done");
 });
 
+router.delete("/product/:id", async (req, res) => {
+  const id = req.params.id;
+  if (id) {
+    try {
+      await Product.deleteOne({ _id: id });
+      return res.status(200).json({ result: "Done" });
+    } catch (error) {
+      return res.status(404).json(error);
+    }
+  }
+});
+
 router.post("/seedDatabase", async (req, res) => {
   const { password } = req.body;
   if (password !== "cb23Yszx3x6C") {
@@ -175,7 +187,7 @@ router.get("/products", async (req, res) => {
     name: { $regex: req.query.keyword || "", $options: "i" },
   })
     .sort({ _id: -1 })
-    .skip((req.query.page || 0) * req.query.pageSize)
+    .skip((req.query.page || 0) * (req.query.pageSize || 0))
     .limit(parseInt(req.query.pageSize) || 2);
 
   return res.status(200).json({ items, total });
